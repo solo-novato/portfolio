@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lakshya Khattar — Portfolio</title>
+  <meta name="description" content="Lakshya Khattar — Senior Software Engineer & AI Infrastructure Architect" />
+  <style>
+    /* =====================================
+       THEME & ACCESSIBILITY
+       ===================================== */
+    :root {
+      --bg: #05060a;           /* softer than pure black */
+      --panel: #0b0e14;        /* readable panel */
+      --text: #cde6dc;         /* warm off-neon text */
+      --muted: #93b3a7;
+      --primary: #00ff88;      /* neon green */
+      --accent-pink: #ff0088;  /* neon pink */
+      --accent-blue: #3aa9ff;  /* neon blue */
+      --ring: rgba(0,255,136,0.35);
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0, 255, 136, 0.08);
+      --border: 1px solid rgba(255,255,255,0.06);
+      --maxw: 1080px;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 600px at 70% -10%, rgba(0,255,136,0.08), transparent 40%),
+                  radial-gradient(1200px 600px at 10% 110%, rgba(255,0,136,0.08), transparent 40%),
+                  var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+
+    a { color: var(--accent-blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* =====================================
+       LAYOUT
+       ===================================== */
+    .container { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+    /* Skip link */
+    .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+    .skip-link:focus { left: 20px; top: 20px; width: auto; height: auto; padding: 8px 12px; background: var(--panel); color: var(--text); border: var(--border); border-radius: 8px; }
+
+    /* =====================================
+       NAVBAR (Primary, text-first navigation)
+       ===================================== */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(140%) blur(8px);
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      border-bottom: var(--border);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: 0.4px; }
+    .brand .dot { width: 10px; height: 10px; border-radius: 999px; background: radial-gradient(circle at 40% 40%, var(--primary), transparent 70%); box-shadow: 0 0 14px var(--primary); }
+    .brand span { color: #eaf7f1; }
+
+    .nav a { color: #eaf7f1; opacity: 0.9; }
+    .nav a:hover { opacity: 1; text-decoration: none; }
+
+    .nav-links { display: flex; gap: 18px; align-items: center; }
+    .nav-links a { padding: 8px 10px; border-radius: 10px; }
+    .nav-links a[aria-current="page"], .nav-links a.active { background: rgba(0,255,136,0.12); outline: 1px solid rgba(0,255,136,0.18); box-shadow: 0 0 0 3px rgba(0,255,136,0.06) inset; }
+
+    /* Mobile nav */
+    .menu-btn { display: none; border: var(--border); background: var(--panel); color: var(--text); border-radius: 10px; padding: 6px 10px; }
+    @media (max-width: 880px) {
+      .nav-links { display: none; }
+      .menu-btn { display: inline-flex; }
+      .nav.open .nav-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: absolute; top: 64px; left: 0; right: 0; background: var(--panel); padding: 12px 16px 16px; border-bottom: var(--border); }
+    }
+
+    /* =====================================
+       HERO
+       ===================================== */
+    .hero { padding: 64px 0 24px; position: relative; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: center; }
+    @media (max-width: 880px) { .hero-grid { grid-template-columns: 1fr; } }
+
+    .tag { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: 0.3px; text-transform: uppercase; color: var(--muted); }
+    .tag .led { width: 6px; height: 6px; border-radius: 999px; background: var(--primary); box-shadow: 0 0 12px var(--primary); }
+
+    h1 { margin: 10px 0 8px; font-size: clamp(28px, 5vw, 44px); line-height: 1.15; letter-spacing: 0.2px; }
+    .subtitle { color: var(--muted); font-size: 16px; }
+
+    .hero-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    @media (max-width: 520px) { .hero-cards { grid-template-columns: 1fr; } }
+
+    .card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 8px; font-size: 14px; letter-spacing: 0.4px; color: #eaf7f1; text-transform: uppercase; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* =====================================
+       SECTION WRAPPER
+       ===================================== */
+    section { padding: 28px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+    .section-head h2 { margin: 0; font-size: 22px; letter-spacing: 0.3px; }
+    .section-desc { color: var(--muted); font-size: 14px; }
+
+    /* =====================================
+       EXPERIENCE
+       ===================================== */
+    .timeline { display: grid; gap: 12px; position: relative; }
+    .timeline::before { content: ""; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: linear-gradient(var(--primary), transparent); opacity: 0.4; }
+    .t-item { position: relative; background: var(--panel); border: var(--border); border-radius: var(--radius); padding: 14px 14px 14px 36px; box-shadow: var(--shadow); }
+    .t-item::before { content: ""; position: absolute; left: 2px; top: 16px; width: 12px; height: 12px; border-radius: 999px; background: radial-gradient(circle at 40% 40%, var(--primary), transparent 70%); box-shadow: 0 0 10px var(--primary); }
+    .t-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; margin-bottom: 6px; }
+    .t-role { color: #eaf7f1; font-weight: 600; }
+    .t-org { color: var(--accent-blue); }
+    .t-time { color: var(--muted); font-size: 13px; }
+    .t-points { margin: 8px 0 0 0; padding-left: 16px; }
+    .t-points li { margin: 6px 0; }
+
+    /* =====================================
+       SKILLS
+       ===================================== */
+    .skill-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 880px) { .skill-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .skill-grid { grid-template-columns: 1fr; } }
+
+    .skill { background: var(--panel); border: var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .chip { border: 1px dashed rgba(0,255,136,0.35); color: #d9f7eb; background: rgba(0,255,136,0.08); padding: 6px 10px; border-radius: 999px; font-size: 13px; }
+
+    /* =====================================
+       PROJECTS
+       ===================================== */
+    .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 880px) { .projects { grid-template-columns: 1fr; } }
+    .project { background: var(--panel); border: var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+    .project small { color: var(--muted); }
+
+    /* =====================================
+       AI LAB & CODE VAULT (condensed)
+       ===================================== */
+    pre { margin: 0; white-space: pre-wrap; word-wrap: break-word; background: #080b11; border: var(--border); border-radius: 12px; padding: 12px; overflow: auto; }
+
+    /* =====================================
+       CONTACT
+       ===================================== */
+    .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 880px) { .contact { grid-template-columns: 1fr; } }
+    .contact .panel { background: var(--panel); border: var(--border); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+    .list { margin: 8px 0 0; padding-left: 18px; }
+
+    /* Footer */
+    footer { padding: 24px 0 60px; color: var(--muted); text-align: center; }
+
+    /* Subtle matrix background (single canvas, throttled) */
+    #bgfx { position: fixed; inset: 0; z-index: -1; opacity: 0.4; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Background FX (kept subtle & performant) -->
+  <canvas id="bgfx" aria-hidden="true"></canvas>
+
+  <header>
+    <div class="container nav" id="nav">
+      <div class="brand"><span class="dot" aria-hidden="true"></span><span>LAKSHYA KHATTAR</span></div>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+      <nav id="primaryNav" class="nav-links" aria-label="Primary">
+        <a href="#home" class="active">Home</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#ailab">AI Lab</a>
+        <a href="#code">Code Vault</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <!-- HERO -->
+    <section id="home" class="hero" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div>
+          <div class="tag"><span class="led" aria-hidden="true"></span> Status: Active • Bengaluru • 5+ yrs</div>
+          <h1 id="hero-title">Senior Software Engineer & <span style="color:var(--primary)">AI Infra Architect</span></h1>
+          <p class="subtitle">I build scalable agentic AI systems, ML infra, and delightful full‑stack products. Currently helping teams ship faster, safer, and smarter.</p>
+        </div>
+        <div class="hero-cards" aria-label="Highlights">
+          <div class="card">
+            <h3>Skyfall AI (2025—Now)</h3>
+            <p>Architected agentic AI infra. <strong>4× workflow speed‑up</strong>. Local dev frameworks. Better DX.</p>
+          </div>
+          <div class="card">
+            <h3>LiveSwitch (2024—25)</h3>
+            <p>Founding engineer (1/4). End‑to‑end architecture. <strong>FORCE Award</strong> within 4 months.</p>
+          </div>
+          <div class="card">
+            <h3>DevRev (2022—24)</h3>
+            <p>Built Leads/Identity CRM. Platform integrations. <strong>Hackathon 2nd</strong>.</p>
+          </div>
+          <div class="card">
+            <h3>cult.fit (2020—21)</h3>
+            <p>Rewards framework. Developer productivity & user metrics.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" aria-labelledby="exp-title">
+      <div class="section-head">
+        <h2 id="exp-title">Experience</h2>
+        <div class="section-desc">Impact highlights in plain English. No sci‑fi UI required to read.</div>
+      </div>
+      <div class="timeline">
+        <article class="t-item">
+          <div class="t-top">
+            <div class="t-role">Freelance Consultant, Software Engineer</div>
+            <div class="t-org">@ Skyfall AI</div>
+            <div class="t-time">2025 — Present</div>
+          </div>
+          <ul class="t-points">
+            <li>Led architecture for agentic AI infrastructure; delivered <strong>~4× efficiency</strong> in ML workflows.</li>
+            <li>Built local development frameworks and tooling to improve DX and reliability.</li>
+            <li>Partnered with product to turn complex problems into elegant, scalable services.</li>
+          </ul>
+        </article>
+
+        <article class="t-item">
+          <div class="t-top">
+            <div class="t-role">Senior Software Engineer</div>
+            <div class="t-org">@ LiveSwitch</div>
+            <div class="t-time">2024 — 2025</div>
+          </div>
+          <ul class="t-points">
+            <li>Founding engineer (1 of 4). Took product from concept → deployment.</li>
+            <li>Received <strong>FORCE</strong> award for technical excellence and impact within 4 months.</li>
+            <li>Drove architecture decisions across services, data, and frontend workflows.</li>
+          </ul>
+        </article>
+
+        <article class="t-item">
+          <div class="t-top">
+            <div class="t-role">Member of Technical Staff II (Growth)</div>
+            <div class="t-org">@ DevRev</div>
+            <div class="t-time">2022 — 2024</div>
+          </div>
+          <ul class="t-points">
+            <li>Architected Leads/Identity CRM and core Identity System of Record.</li>
+            <li>Shipped integrations across the platform with strong reliability.</li>
+            <li>2nd place at internal Hackathon (Conversational TODO agent).</li>
+          </ul>
+        </article>
+
+        <article class="t-item">
+          <div class="t-top">
+            <div class="t-role">Software Developer</div>
+            <div class="t-org">@ cult.fit</div>
+            <div class="t-time">2020 — 2021</div>
+          </div>
+          <ul class="t-points">
+            <li>Built Rewards Service framework used across the product suite.</li>
+            <li>Improved developer ergonomics; boosted user satisfaction metrics.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="section-head">
+        <h2 id="skills-title">Skills</h2>
+        <div class="section-desc">A quick glance. Ask me for deep dives.</div>
+      </div>
+      <div class="skill-grid">
+        <div class="skill">
+          <strong>Backend</strong>
+          <div class="chips">
+            <span class="chip">Golang</span>
+            <span class="chip">TypeScript</span>
+            <span class="chip">Node.js</span>
+            <span class="chip">Python</span>
+            <span class="chip">Java</span>
+            <span class="chip">C++</span>
+          </div>
+        </div>
+        <div class="skill">
+          <strong>Frontend</strong>
+          <div class="chips">
+            <span class="chip">React</span>
+            <span class="chip">Vue</span>
+            <span class="chip">Next.js</span>
+          </div>
+        </div>
+        <div class="skill">
+          <strong>Databases</strong>
+          <div class="chips">
+            <span class="chip">PostgreSQL</span>
+            <span class="chip">MySQL</span>
+            <span class="chip">MongoDB</span>
+            <span class="chip">Redis</span>
+          </div>
+        </div>
+        <div class="skill">
+          <strong>AI & Infra</strong>
+          <div class="chips">
+            <span class="chip">Agentic AI</span>
+            <span class="chip">ML Infrastructure</span>
+            <span class="chip">Neural Networks</span>
+            <span class="chip">Scalable Architecture</span>
+          </div>
+        </div>
+        <div class="skill">
+          <strong>Architecture</strong>
+          <div class="chips">
+            <span class="chip">System Design</span>
+            <span class="chip">Event‑Driven</span>
+            <span class="chip">Observability</span>
+            <span class="chip">Performance</span>
+          </div>
+        </div>
+        <div class="skill">
+          <strong>Tools</strong>
+          <div class="chips">
+            <span class="chip">Azure</span>
+            <span class="chip">Docker</span>
+            <span class="chip">Kubernetes</span>
+            <span class="chip">Terraform</span>
+            <span class="chip">GitHub Actions</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" aria-labelledby="proj-title">
+      <div class="section-head">
+        <h2 id="proj-title">Projects</h2>
+        <div class="section-desc">Selected work with succinct outcomes.</div>
+      </div>
+      <div class="projects">
+        <article class="project">
+          <h3>Agentic AI Infrastructure</h3>
+          <small>Skyfall AI • 2025</small>
+          <p>Built a reliable deployment & orchestration layer for multi‑agent systems, improving feedback cycles and throughput with strong guardrails.</p>
+          <ul class="list">
+            <li>Outcome: ~4× faster ML workflows; fewer regressions.</li>
+            <li>Focus: Performance, DX, safety rails.</li>
+          </ul>
+        </article>
+        <article class="project">
+          <h3>Leads/Identity CRM</h3>
+          <small>DevRev • 2023</small>
+          <p>Shipped SoR for identities and seamless platform integration, enabling growth teams to operate from one consistent source.</p>
+          <ul class="list">
+            <li>Outcome: Higher data integrity, fewer sync issues.</li>
+            <li>Focus: System design, integrations.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- AI LAB (Concise) -->
+    <section id="ailab" aria-labelledby="lab-title">
+      <div class="section-head">
+        <h2 id="lab-title">AI Lab</h2>
+        <div class="section-desc">Where I tinker with agents, infra, and emergent behaviors.</div>
+      </div>
+      <div class="card">
+        <strong>Tracks:</strong>
+        <ul class="list">
+          <li>Autonomous multi‑agent planning & tool‑use.</li>
+          <li>Training/serving pipeline acceleration.</li>
+          <li>Conversation‑first task management.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CODE VAULT (Concise) -->
+    <section id="code" aria-labelledby="code-title">
+      <div class="section-head">
+        <h2 id="code-title">Code Vault</h2>
+        <div class="section-desc">Snapshots of patterns I like.</div>
+      </div>
+      <div class="card">
+        <h3>Service Mesh (Go)</h3>
+        <pre><code>type ServiceMesh struct {
+  Services     []MicroService
+  LoadBalancer LoadBalancer
+  APIGateway   Gateway
+  Monitoring   ObservabilityStack
+}
+
+func (sm *ServiceMesh) Deploy() error {
+  return sm.orchestrateDeployment()
+}</code></pre>
+      </div>
+      <div class="card">
+        <h3>Agentic Orchestration (TS)</h3>
+        <pre><code>class AgenticAI {
+  constructor(config) {
+    this.agents = new AgentPool(config)
+    this.orchestrator = new TaskOrchestrator()
+    this.memory = new ContextMemory()
+  }
+  async process(task) {
+    const agent = await this.selectOptimalAgent(task)
+    return agent.execute(task, this.memory.getContext())
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="section-head">
+        <h2 id="contact-title">Contact</h2>
+        <div class="section-desc">Fastest reply within 24 hours.</div>
+      </div>
+      <div class="contact">
+        <div class="panel">
+          <h3>Reach me</h3>
+          <ul class="list">
+            <li>Email: <a href="mailto:lkhattar.lk@gmail.com">lkhattar.lk@gmail.com</a></li>
+            <li>Phone: <a href="tel:+919888330112">+91 9888330112</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com/in/lakshya-khattar-lk/" target="_blank" rel="noopener">lakshya-khattar-lk</a></li>
+            <li>Location: Bengaluru, India (IST, UTC+5:30)</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Topics I love</h3>
+          <div class="chips">
+            <span class="chip">AI/ML Projects</span>
+            <span class="chip">System Architecture</span>
+            <span class="chip">Full‑Stack</span>
+            <span class="chip">Technical Consulting</span>
+            <span class="chip">Startups</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="y"></span> Lakshya Khattar — Built with a neon soul, readable by humans.
+  </footer>
+
+  <script>
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear()
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn')
+    const navWrap = document.getElementById('nav')
+    menuBtn?.addEventListener('click', () => {
+      const open = navWrap.classList.toggle('open')
+      menuBtn.setAttribute('aria-expanded', String(open))
+    })
+
+    // Scrollspy for nav highlighting
+    const links = Array.from(document.querySelectorAll('#primaryNav a'))
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean)
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const id = '#' + entry.target.id
+        const link = links.find(a => a.getAttribute('href') === id)
+        if (link) {
+          if (entry.isIntersecting) {
+            links.forEach(l => l.classList.remove('active'))
+            link.classList.add('active')
+            link.setAttribute('aria-current', 'page')
+          } else {
+            link.removeAttribute('aria-current')
+          }
+        }
+      })
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 })
+
+    sections.forEach(s => obs.observe(s))
+
+    // Subtle background matrix (single canvas + rAF, throttled when hidden)
+    const c = document.getElementById('bgfx')
+    const ctx = c.getContext('2d')
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン'
+    let w, h, fontSize, cols, drops
+
+    function resize() {
+      w = c.width = window.innerWidth
+      h = c.height = window.innerHeight
+      fontSize = 14
+      cols = Math.floor(w / fontSize)
+      drops = new Array(cols).fill(1)
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    let running = true
+    document.addEventListener('visibilitychange', () => running = !document.hidden)
+
+    function loop() {
+      if (running) {
+        ctx.fillStyle = 'rgba(5,6,10,0.07)'
+        ctx.fillRect(0, 0, w, h)
+        ctx.fillStyle = 'rgba(0,255,136,0.35)'
+        ctx.font = fontSize + 'px monospace'
+        for (let i = 0; i < drops.length; i++) {
+          const ch = chars[Math.floor(Math.random() * chars.length)]
+          ctx.fillText(ch, i * fontSize, drops[i] * fontSize)
+          if (drops[i] * fontSize > h && Math.random() > 0.975) drops[i] = 0
+          drops[i]++
+        }
+      }
+      requestAnimationFrame(loop)
+    }
+    requestAnimationFrame(loop)
+  </script>
+</body>
+</html>
